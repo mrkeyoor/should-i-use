@@ -1595,7 +1595,7 @@
   "name": "celery",
   "registry": "pypi",
   "repo": "celery/celery",
-  "stars": 28761,
+  "stars": 28763,
   "lastPush": "2026-08-04T06:44:28Z",
   "category": "infra",
   "weeklyDownloads": 13856056,
@@ -1722,7 +1722,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:29.569Z"
+  "updatedAt": "2026-08-05T08:41:28.608Z"
  },
  {
   "slug": "chromadb",
@@ -2003,7 +2003,7 @@
   "name": "commander",
   "registry": "npm",
   "repo": "tj/commander.js",
-  "stars": 28342,
+  "stars": 28343,
   "lastPush": "2026-08-01T22:52:38Z",
   "category": "cli-tooling",
   "weeklyDownloads": 475968355,
@@ -2125,7 +2125,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:20.929Z"
+  "updatedAt": "2026-08-05T08:41:10.708Z"
  },
  {
   "slug": "cryptography",
@@ -2397,7 +2397,7 @@
   "name": "d3",
   "registry": "npm",
   "repo": "d3/d3",
-  "stars": 113327,
+  "stars": 113332,
   "lastPush": "2026-05-28T14:43:01Z",
   "category": "data",
   "weeklyDownloads": 17297569,
@@ -2519,7 +2519,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:23.524Z"
+  "updatedAt": "2026-08-05T08:41:18.353Z"
  },
  {
   "slug": "date-fns",
@@ -3349,7 +3349,7 @@
   "name": "esbuild",
   "registry": "npm",
   "repo": "evanw/esbuild",
-  "stars": 40007,
+  "stars": 40006,
   "lastPush": "2026-06-12T01:32:48Z",
   "category": "cli-tooling",
   "weeklyDownloads": 258473440,
@@ -3489,7 +3489,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T02:58:29.578Z"
+  "updatedAt": "2026-08-05T08:41:41.892Z"
  },
  {
   "slug": "eslint",
@@ -4603,7 +4603,7 @@
   "name": "hono",
   "registry": "npm",
   "repo": "honojs/hono",
-  "stars": 31588,
+  "stars": 31587,
   "lastPush": "2026-08-03T21:46:55Z",
   "category": "web-backend",
   "weeklyDownloads": 56480379,
@@ -4730,7 +4730,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:32.301Z"
+  "updatedAt": "2026-08-05T08:41:31.930Z"
  },
  {
   "slug": "httpx",
@@ -4878,7 +4878,7 @@
   "name": "@huggingface/transformers",
   "registry": "npm",
   "repo": "huggingface/transformers.js",
-  "stars": 16230,
+  "stars": 16233,
   "lastPush": "2026-07-31T13:17:52Z",
   "category": "ai-ml",
   "weeklyDownloads": 2430585,
@@ -5000,7 +5000,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:35.709Z"
+  "updatedAt": "2026-08-05T08:41:37.334Z"
  },
  {
   "slug": "jest",
@@ -5271,8 +5271,8 @@
   "name": "langchain",
   "registry": "npm",
   "repo": "langchain-ai/langchainjs",
-  "stars": 18012,
-  "lastPush": "2026-08-04T17:37:12Z",
+  "stars": 18011,
+  "lastPush": "2026-08-05T07:44:01Z",
   "category": "ai-ml",
   "weeklyDownloads": 2772466,
   "version": "1.5.4",
@@ -5386,7 +5386,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:27.077Z"
+  "updatedAt": "2026-08-05T08:41:25.972Z"
  },
  {
   "slug": "langchain-py",
@@ -7470,10 +7470,10 @@
   "name": "openai",
   "registry": "pypi",
   "repo": "openai/openai-python",
-  "stars": 31300,
+  "stars": 31302,
   "lastPush": "2026-08-04T22:26:38Z",
   "category": "ai-ml",
-  "weeklyDownloads": 107788906,
+  "weeklyDownloads": 109106201,
   "version": "2.53.0",
   "bundleKb": null,
   "docsUrl": "https://platform.openai.com/docs/api-reference",
@@ -7598,7 +7598,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:28.892Z"
+  "updatedAt": "2026-08-05T08:41:27.932Z"
  },
  {
   "slug": "openai-js",
@@ -7746,7 +7746,7 @@
   "name": "opencv-python",
   "registry": "pypi",
   "repo": "opencv/opencv-python",
-  "stars": 5341,
+  "stars": 5343,
   "lastPush": "2026-07-28T09:15:48Z",
   "category": "ai-ml",
   "weeklyDownloads": 13529326,
@@ -7867,7 +7867,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:30.263Z"
+  "updatedAt": "2026-08-05T08:41:29.350Z"
  },
  {
   "slug": "openpyxl",
@@ -9364,7 +9364,7 @@
   "name": "prisma",
   "registry": "npm",
   "repo": "prisma/prisma",
-  "stars": 47527,
+  "stars": 47531,
   "lastPush": "2026-08-05T02:34:27Z",
   "category": "data",
   "weeklyDownloads": 15891006,
@@ -9492,7 +9492,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:34.278Z"
+  "updatedAt": "2026-08-05T08:41:35.077Z"
  },
  {
   "slug": "psycopg2-binary",
@@ -11990,7 +11990,7 @@
   "registry": "pypi",
   "repo": "scipy/scipy",
   "stars": 14884,
-  "lastPush": "2026-08-04T19:35:52Z",
+  "lastPush": "2026-08-05T08:27:44Z",
   "category": "data",
   "weeklyDownloads": 103889764,
   "version": "1.18.0",
@@ -12122,7 +12122,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:36.895Z"
+  "updatedAt": "2026-08-05T08:41:39.139Z"
  },
  {
   "slug": "selenium",
@@ -12130,7 +12130,7 @@
   "registry": "pypi",
   "repo": "SeleniumHQ/selenium",
   "stars": 34349,
-  "lastPush": "2026-08-05T03:16:17Z",
+  "lastPush": "2026-08-05T04:46:27Z",
   "category": "testing",
   "weeklyDownloads": 13137165,
   "version": "4.46.0",
@@ -12257,7 +12257,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:37.618Z"
+  "updatedAt": "2026-08-05T08:41:39.859Z"
  },
  {
   "slug": "sentence-transformers",
@@ -13479,7 +13479,7 @@
   "name": "@tanstack/react-query",
   "registry": "npm",
   "repo": "TanStack/query",
-  "stars": 50062,
+  "stars": 50067,
   "lastPush": "2026-08-03T11:43:21Z",
   "category": "web-frontend",
   "weeklyDownloads": 62425797,
@@ -13607,7 +13607,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:22.438Z"
+  "updatedAt": "2026-08-05T08:41:14.358Z"
  },
  {
   "slug": "tensorflow",
@@ -14290,7 +14290,7 @@
   "name": "@trpc/server",
   "registry": "npm",
   "repo": "trpc/trpc",
-  "stars": 40491,
+  "stars": 40492,
   "lastPush": "2026-07-26T11:24:23Z",
   "category": "web-backend",
   "weeklyDownloads": 4741169,
@@ -14412,7 +14412,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-05T03:20:25.391Z"
+  "updatedAt": "2026-08-05T08:41:22.624Z"
  },
  {
   "slug": "typer",
@@ -14824,7 +14824,7 @@
   "name": "uuid",
   "registry": "npm",
   "repo": "uuidjs/uuid",
-  "stars": 15311,
+  "stars": 15310,
   "lastPush": "2026-07-07T16:04:19Z",
   "category": "utils",
   "weeklyDownloads": 277464895,
@@ -14939,7 +14939,7 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-04T14:50:00.000Z"
+  "updatedAt": "2026-08-05T08:41:12.436Z"
  },
  {
   "slug": "uv",
