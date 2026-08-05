@@ -1,0 +1,10 @@
+The library index snapshot in this directory (libraries.json) is licensed
+under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+You may share and adapt the data for any purpose, including commercially,
+as long as you credit the source: mrkeyoor.com (https://mrkeyoor.com/libs/).
+
+The snapshot is exported daily from the mrkeyoor.com library index. The
+server code in the parent directory is licensed separately under MIT (see
+../LICENSE).

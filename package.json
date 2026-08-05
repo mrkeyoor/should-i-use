@@ -1,0 +1,50 @@
+{
+  "name": "should-i-use-mcp",
+  "version": "0.1.0",
+  "description": "Token-efficient library docs MCP server. Honest library recommendations for coding agents: what to install, what to skip, and how to use it, in 25-360 tokens per answer. A Context7 alternative that answers the question instead of dumping documentation.",
+  "type": "module",
+  "main": "server.js",
+  "bin": {
+    "should-i-use-mcp": "server.js"
+  },
+  "files": [
+    "server.js",
+    "tools.js",
+    "clamp.js",
+    "data.js",
+    "smoke.js",
+    "data/libraries.json",
+    "data/LICENSE"
+  ],
+  "scripts": {
+    "start": "node server.js",
+    "smoke": "node smoke.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "library-docs",
+    "context7-alternative",
+    "developer-tools",
+    "documentation",
+    "npm",
+    "pypi"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrkeyoor/should-i-use.git"
+  },
+  "homepage": "https://mrkeyoor.com/libs/",
+  "bugs": {
+    "url": "https://github.com/mrkeyoor/should-i-use/issues"
+  },
+  "author": "Keyoor (https://mrkeyoor.com/author/keyoor/)",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
