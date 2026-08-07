@@ -40,7 +40,7 @@ async function main() {
 
   const { tools } = await client.listTools()
   console.log(`tools listed: ${tools.map((t) => t.name).join(', ')}`)
-  if (tools.length !== 5) throw new Error(`expected 5 tools, got ${tools.length}`)
+  if (tools.length !== 6) throw new Error(`expected 6 tools, got ${tools.length}`)
 
   let failed = false
   for (const [name, args] of calls) {

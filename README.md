@@ -6,38 +6,37 @@ Most library docs MCP servers dump thousands of tokens of documentation into you
 
 **531 libraries indexed. Last updated: 2026-08-07.**
 
-Data comes from a curated index of npm and PyPI libraries with hand-written honest guides: what a library is actually like to set up, when you should not use it, verified alternatives, 4-axis scorecards, and version-correct code snippets. If a library is not indexed, the tools say so plainly instead of guessing.
+The index grows daily. Data comes from a curated set of npm and PyPI libraries with hand-written honest guides: what a library is actually like to set up, when you should not use it, verified alternatives, 4-axis scorecards, and version-correct code snippets. If a library is not indexed, the tools say so plainly instead of guessing.
 
 If you want a Context7 alternative that treats context as a budget rather than a bucket, this is it.
 
 ## Quickstart
 
-No install, no API key, no database. The index ships inside the package.
+No API key, no database. The index ships inside the package.
 
-### Claude Code
+```
+npx should-i-use-mcp install
+```
+
+That writes the server entry into whichever agent configs already exist on your machine: Claude Code, Claude Desktop, Cursor, Windsurf, Cline, VS Code, Zed, Codex, Gemini CLI. Each file it touches is backed up as `.bak` first. Restart your agent afterwards.
+
+For a repo-local config instead of your home directory:
+
+```
+npx should-i-use-mcp install --project
+```
+
+That writes `.mcp.json` and `.cursor/mcp.json` in the current directory, so everyone who clones the repo gets the server.
+
+### Claude Code, one line
 
 ```
 claude mcp add should-i-use -- npx -y should-i-use-mcp
 ```
 
-### Cursor
+### By hand
 
-Add to `~/.cursor/mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "should-i-use": {
-      "command": "npx",
-      "args": ["-y", "should-i-use-mcp"]
-    }
-  }
-}
-```
-
-### Windsurf
-
-Add to `~/.codeium/windsurf/mcp_config.json`:
+If you would rather edit the JSON yourself, add this to your client's MCP config (`~/.cursor/mcp.json` for Cursor, `~/.codeium/windsurf/mcp_config.json` for Windsurf, the Claude Desktop config on macOS or Windows, and so on):
 
 ```json
 {
@@ -50,7 +49,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 }
 ```
 
-Any other MCP client: command `npx`, args `["-y", "should-i-use-mcp"]`. Running from a local checkout: command `node`, args `["/path/to/should-i-use/server.js"]`.
+Any other MCP client: command `npx`, args `["-y", "should-i-use-mcp"]`. Running from a local checkout: command `node`, args `["/path/to/should-i-use/server.js"]`. VS Code puts the same object under `servers` instead of `mcpServers`, and Zed under `context_servers`; the installer handles both.
 
 ### Hosted endpoint (rolling out)
 
@@ -62,9 +61,38 @@ A hosted streamable-HTTP endpoint is rolling out at `https://mrkeyoor.com/mcp`. 
 | --- | --- | --- |
 | `pick_library` | `pick_library("parse CSV files in node")` | Top 1-3 picks with one-line reasoning, plus a skip warning for the winner |
 | `should_i_use` | `should_i_use("moment")` | Verdict, 4-axis scores with reasons, top skip-if items, last push and download signals |
+| `audit_dependencies` | `audit_dependencies(<contents of package.json>)` | Only the dependencies worth a decision: unmaintained, unstable, or worth swapping |
 | `alternatives` | `alternatives("axios")` | Curated alternatives with "prefer it when" lines and verdicts |
 | `how_do_i` | `how_do_i("got", "retry a failed request")` | The 1-2 best snippets for the task plus their gotchas, nothing else |
 | `docs_link` | `docs_link("fastapi", "middleware")` | Docs URL and repo link, one line each |
+
+## audit_dependencies
+
+The pitch is "ask before you npm install". This is the tool for the codebase you did not write, where the installing already happened.
+
+Pass it the contents of `package.json`, `requirements.txt`, `pyproject.toml`, or just a newline-separated list of names. It returns only the dependencies that need a human decision, sorted into REPLACE (unmaintained), WATCH (unstable API or thin maintenance), and WORTH RECONSIDERING (a documented reason to skip plus a named alternative). It stays quiet about the boring majority, and it says nothing at all about packages that are not in the index rather than inventing an opinion.
+
+Real output, unedited:
+
+```
+REPLACE (1 unmaintained):
+- crypto-js: last push 2.0y ago, still 19.3M/wk. Nineteen million weekly
+  downloads of pure inertia behind a library whose own README tells you to
+  stop using it. Consider @noble/hashes or @noble/ciphers.
+```
+
+```
+REPLACE (1 unmaintained):
+- python-jose: last push 4mo ago, still 10.6M/wk. It works, it is widely
+  deployed, and the API is pleasant, but a cryptography library with a
+  three-and-a-half-year release gap and a ten-month turnaround on two
+  critical advisories is not where new code should start. Consider pyjwt
+  or joserfc.
+```
+
+Both of those are popular packages in current use. Download count is not a maintenance signal, and that is the gap this tool is for.
+
+A good first prompt after installing: *"audit my dependencies"*.
 
 ## Token budget, measured
 
@@ -72,7 +100,15 @@ A hosted streamable-HTTP endpoint is rolling out at `https://mrkeyoor.com/mcp`. 
 - Hard cap: 500 tokens per response, enforced in `clamp.js`. Long answers are cut at sentence boundaries with a pointer to `docs_link`.
 - The smoke test (`npm run smoke`) spawns the server, calls every tool against the bundled data, and fails if any response breaks the cap. The budget is a test, not a promise.
 
-Compare that with a docs-dump server, where a single "how do I" answer routinely costs 2,000 to 10,000 tokens of pasted documentation.
+Measured against Context7 on 20 real coding questions, tokens estimated as chars/4. Ours is one `how_do_i` call; theirs is the two calls an agent actually makes, `resolve-library-id` plus the docs call at its default budget.
+
+| | Median tokens per answer |
+| --- | --- |
+| should-i-use | **185** |
+| Context7 | **1157** |
+| Ratio | **6.3x** |
+
+Every number there is a measured MCP response, not a vendor claim. See the limitations below for what that ratio does and does not prove.
 
 ## How the data is made
 
@@ -92,10 +128,20 @@ Set `SHOULD_I_USE_DATA=/path/to/libraries.json` to point the server at your own 
 - Node 20+
 - Nothing else. No database, no network access at runtime.
 
+## Limitations
+
+Worth knowing before you rely on it:
+
+- **Coverage is curated, not complete.** A few hundred libraries, not every package on npm and PyPI. `audit_dependencies` therefore stays quiet on anything unindexed, and a clean audit means "nothing flagged in what I know", not "your dependencies are fine".
+- **Guides are point-in-time.** Signals refresh daily and guides are reviewed on a pipeline, so a library that shipped a big release or found a new maintainer this week can be ahead of what the guide says. Check `docs_link` when the answer looks stale.
+- **`pick_library` ranks on keywords, not embeddings.** Plain phrasing works well; unusual or metaphorical phrasing can miss entirely. If nothing matches, it says so instead of returning a shrug, but you may need to reword.
+- **The benchmark is indicative, not definitive.** 20 queries, measured on one day, and Context7's free tier rate-limits partway through, so some of their rows came from an earlier run the same day. The 6.3x ratio is a real measurement of a small sample, not a general law. Rerun it yourself if the number matters to you.
+- **Verdicts are opinions.** Informed, sourced, and argued, but still one person's judgment call. Disagreeing with one is a valid bug report.
+
 ## Contributing
 
 - **Missing library or wrong verdict?** [Open an issue](https://github.com/mrkeyoor/should-i-use/issues). Challenges to verdicts are how the index gets better.
-- **Code changes**: PRs welcome for the server (`server.js`, `tools.js`, `clamp.js`, `data.js`). Keep responses inside the 500 token cap; `npm run smoke` enforces it.
+- **Code changes**: PRs welcome for the server (`server.js`, `tools.js`, `clamp.js`, `data.js`, `install.js`). Keep responses inside the 500 token cap; `npm run smoke` enforces it.
 - **Data changes**: `data/libraries.json` is generated, so edits to it get overwritten by the next export. File an issue instead and the fix lands upstream.
 
 ## License

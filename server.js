@@ -10,7 +10,14 @@ import {
   CallToolRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js'
 import { clamp } from './clamp.js'
-import { pickLibrary, shouldIUse, alternatives, howDoI, docsLink } from './tools.js'
+import { pickLibrary, shouldIUse, alternatives, howDoI, docsLink, auditDependencies } from './tools.js'
+
+// `npx should-i-use-mcp install` configures agent config files instead of
+// starting the server.
+if (process.argv[2] === 'install') {
+  await import('./install.js')
+  process.exit(0)
+}
 
 const TOOLS = [
   {
@@ -68,6 +75,20 @@ const TOOLS = [
     handler: howDoI,
   },
   {
+    name: 'audit_dependencies',
+    description:
+      "Audit a project's dependencies for unmaintained packages, unstable APIs, and documented reasons to switch. Pass the contents of package.json, requirements.txt, or pyproject.toml. Returns only the dependencies worth a decision, not a report on every line. Run this before working in an unfamiliar codebase.",
+    inputSchema: {
+      type: 'object',
+      properties: {
+        manifest: { type: 'string', description: 'Contents of package.json, requirements.txt, pyproject.toml, or a newline-separated list of package names' },
+        ecosystem: { type: 'string', enum: ['npm', 'pypi'], description: 'Optional hint when the manifest format is ambiguous' },
+      },
+      required: ['manifest'],
+    },
+    handler: auditDependencies,
+  },
+  {
     name: 'docs_link',
     description: 'Official docs URL and GitHub repo for a library, one line each. Use when the clamped answers are not enough.',
     inputSchema: {
@@ -83,7 +104,7 @@ const TOOLS = [
 ]
 
 const server = new Server(
-  { name: 'should-i-use', version: '0.1.0' },
+  { name: 'should-i-use', version: '0.2.0' },
   { capabilities: { tools: {} } }
 )
 

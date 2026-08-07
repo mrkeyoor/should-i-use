@@ -225,4 +225,116 @@ export async function docsLink({ library, topic }) {
   return lines.join('\n')
 }
 
+// ---------- audit_dependencies ----------
+
+// Accepts a manifest (package.json, requirements.txt, pyproject.toml, or a
+// plain list) and returns only the dependencies worth a human decision. The
+// point is the inverse of a docs dump: say nothing about the boring 90%.
+function parseManifest(manifest, hint) {
+  const text = String(manifest || '').trim()
+  const out = []
+  const push = (name, registry) => {
+    const n = String(name).trim()
+    if (n && !out.some((d) => d.name === n)) out.push({ name: n, registry })
+  }
+
+  if (text.startsWith('{')) {
+    try {
+      const json = JSON.parse(text)
+      // package.json
+      for (const field of ['dependencies', 'devDependencies', 'peerDependencies']) {
+        for (const name of Object.keys(json[field] || {})) push(name, 'npm')
+      }
+      // pyproject-as-json is rare; fall through if nothing found
+      if (out.length) return out
+    } catch {
+      /* not JSON, treat as text */
+    }
+  }
+
+  for (const rawLine of text.split('\n')) {
+    // strip comments and markers, then take the name before any version spec
+    const line = rawLine.split('#')[0].trim().replace(/^["'\s-]+|["',\s]+$/g, '')
+    if (!line || /^\[|^]/.test(line)) continue
+    const name = line.split(/[<>=!~;\[\s(]/)[0].trim()
+    if (!name || /^(?:-r|--|https?:)/.test(name)) continue
+    const registry = hint || (/^@/.test(name) ? 'npm' : undefined)
+    push(name, registry)
+  }
+  return out
+}
+
+const endPunct = (s) => (/[.!?]$/.test(String(s).trim()) ? String(s).trim() : `${String(s).trim()}.`)
+
+export async function auditDependencies({ manifest, ecosystem }) {
+  const deps = parseManifest(manifest, ecosystem)
+  if (deps.length === 0) {
+    return 'Could not read any dependency names from that manifest. Pass the contents of package.json, requirements.txt, pyproject.toml, or a newline-separated list of package names.'
+  }
+
+  const dead = []
+  const risky = []
+  const better = []
+  let indexed = 0
+
+  for (const dep of deps.slice(0, 200)) {
+    const lib = await findLibrary(dep.name, dep.registry || ecosystem)
+    if (!lib) continue
+    indexed++
+    const g = lib.guide || {}
+    const s = lib.scores || {}
+    const pushDays = lib.lastPush ? Math.floor((Date.now() - Date.parse(lib.lastPush)) / 86400000) : null
+    const maintenance = s.maintenance ? s.maintenance.score : null
+
+    // Unmaintained: the single most actionable finding. A package can be
+    // hugely popular and still be abandoned (that is the whole point).
+    if (lib.staleReason || (pushDays != null && pushDays > 540) || maintenance === 1) {
+      dead.push(
+        `- ${lib.name}: last push ${fmtLastPush(lib.lastPush)}` +
+          (lib.weeklyDownloads ? `, still ${fmtDownloads(lib.weeklyDownloads)}` : '') +
+          `. ${firstSentence(g.verdict) || 'Unmaintained.'}` +
+          (g.alternatives && g.alternatives[0] ? ` Consider ${g.alternatives.map((a) => a.name).slice(0, 2).join(' or ')}.` : '')
+      )
+      continue
+    }
+    // Shaky: low maintenance or unstable API is worth flagging, not replacing.
+    if (maintenance === 2 || (s.apiStability && s.apiStability.score <= 2)) {
+      risky.push(
+        `- ${lib.name}: ${s.apiStability && s.apiStability.score <= 2 ? 'unstable API' : 'thin maintenance'}` +
+          `. ${firstSentence((s.apiStability && s.apiStability.why) || (s.maintenance && s.maintenance.why) || '')}`
+      )
+      continue
+    }
+    // Healthy but there is a documented reason someone swaps it out. Prefer
+    // the alternative the skipIf line itself names; alternatives[0] is often
+    // about a different axis (numpy -> torch when the reason was pandas).
+    const skip = (g.skipIf || [])[0]
+    const alts = g.alternatives || []
+    if (skip && alts.length) {
+      const named = alts.find((a) => new RegExp(`\\b${String(a.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(skip))
+      const tail = named ? '' : ` Alternatives: ${alts.slice(0, 2).map((a) => a.name).join(', ')}.`
+      better.push(`- ${lib.name}: skip it if ${lcFirst(endPunct(skip))}${tail}`)
+    }
+  }
+
+  const lines = [`Audited ${deps.length} dependencies, ${indexed} are in the should-i-use index.`]
+  if (dead.length) {
+    lines.push('', `REPLACE (${dead.length} unmaintained):`, ...dead)
+  }
+  if (risky.length) {
+    lines.push('', `WATCH (${risky.length}):`, ...risky.slice(0, 5))
+  }
+  if (better.length && dead.length + risky.length < 6) {
+    lines.push('', 'WORTH RECONSIDERING:', ...better.slice(0, 4))
+  }
+  if (!dead.length && !risky.length && !better.length) {
+    lines.push('', indexed === 0
+      ? 'None of these are indexed yet, so nothing can be said honestly. Coverage grows daily at https://mrkeyoor.com/libs/.'
+      : 'No maintenance or stability flags on the indexed ones. Nothing to act on.')
+  }
+  const unindexed = deps.length - indexed
+  if (unindexed > 0 && indexed > 0) lines.push('', `${unindexed} not indexed yet (no opinion given rather than a guessed one).`)
+  return lines.join('\n')
+}
+
 export { slugify }

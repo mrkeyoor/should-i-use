@@ -13074,7 +13074,13 @@
    }
   ],
   "status": "published",
-  "updatedAt": "2026-08-07T03:57:11.982Z"
+  "updatedAt": "2026-08-07T03:57:11.982Z",
+  "socialPlatforms": [
+   "x→telegram",
+   "fb→telegram",
+   "ig→telegram"
+  ],
+  "socialPostedAt": "2026-08-07T08:46:08.568Z"
  },
  {
   "slug": "ddtrace",
