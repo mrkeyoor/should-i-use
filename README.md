@@ -6,7 +6,7 @@ Most library docs MCP servers dump thousands of tokens of documentation into you
 
 **992 libraries indexed. Last updated: 2026-08-10.**
 
-The index grows daily. Data comes from a curated set of npm and PyPI libraries with hand-written honest guides: what a library is actually like to set up, when you should not use it, verified alternatives, 4-axis scorecards, and version-correct code snippets. If a library is not indexed, the tools say so plainly instead of guessing.
+The index grows daily. Data comes from a curated set of npm and PyPI libraries with honest guides written to a fixed rubric and grounded in each library's own docs: what a library is actually like to set up, when you should not use it, verified alternatives, 4-axis scorecards, and version-correct code snippets. If a library is not indexed, the tools say so plainly instead of guessing.
 
 If you want a Context7 alternative that treats context as a budget rather than a bucket, this is it.
 
@@ -112,9 +112,9 @@ Every number there is a measured MCP response, not a vendor claim. See the limit
 
 ## How the data is made
 
-Every entry is a hand-written guide backed by registry and repo signals, not scraped docs:
+Every entry is a guide written to a fixed rubric, grounded in the library's own docs and validator-gated, backed by registry and repo signals — not scraped docs:
 
-- **Guides and verdicts**: what the library is, when to use it, when to skip it, written and reviewed at [mrkeyoor.com/libs](https://mrkeyoor.com/libs/) by [Keyoor](https://mrkeyoor.com/author/keyoor/).
+- **Guides and verdicts**: what the library is, when to use it, when to skip it, published at [mrkeyoor.com/libs](https://mrkeyoor.com/libs/) by [Keyoor](https://mrkeyoor.com/author/keyoor/).
 - **Scores**: 4 axes (API stability, docs quality, maintenance, ecosystem), 1-5 each, with a one-line reason per score.
 - **Signals**: last push, weekly downloads, and stars refreshed daily from the registries and GitHub.
 - **Snippets**: checked against the indexed version, each with its gotcha.
