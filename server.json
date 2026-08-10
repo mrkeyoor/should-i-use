@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.mrkeyoor/should-i-use",
+  "description": "Honest library picks for coding agents in 25-360 tokens. Tells your agent what NOT to install.",
+  "repository": {
+    "url": "https://github.com/mrkeyoor/should-i-use",
+    "source": "github"
+  },
+  "websiteUrl": "https://mrkeyoor.com/libs/",
+  "version": "0.3.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "should-i-use-mcp",
+      "version": "0.3.2",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mrkeyoor.com/mcp"
+    }
+  ]
+}
