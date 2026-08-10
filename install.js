@@ -66,6 +66,33 @@ for (const t of TARGETS) {
   }
 }
 
+// --with-policy: drop a one-line rule into the project's agent instruction
+// files so the agent checks BEFORE adding a dependency, every time. MCP tools
+// are advisory on their own; a project rule makes the check near-guaranteed.
+const POLICY_LINE =
+  'Before adding or recommending any npm/PyPI dependency, check it with the should-i-use MCP tools first (should_i_use for a specific library, pick_library for a task, audit_dependencies after editing a manifest). Take the skip-warnings seriously.'
+
+if (process.argv.includes('--with-policy')) {
+  const targets = ['CLAUDE.md', 'AGENTS.md']
+  const found = targets.filter((f) => fs.existsSync(path.join(process.cwd(), f)))
+  // If neither file exists, create AGENTS.md — the cross-agent convention.
+  for (const f of found.length ? found : ['AGENTS.md']) {
+    const file = path.join(process.cwd(), f)
+    const existing = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
+    if (existing.includes('should-i-use MCP')) {
+      console.log(`policy already present  ${f}`)
+      continue
+    }
+    const block = `${existing.trim() ? existing.replace(/\s*$/, '\n\n') : ''}## Dependency policy\n\n${POLICY_LINE}\n`
+    if (existing) fs.copyFileSync(file, `${file}.bak`)
+    fs.writeFileSync(file, block)
+    console.log(`policy written          ${f}`)
+  }
+} else if (written > 0) {
+  console.log('\nTip: run with --with-policy inside a project to add a one-line rule to')
+  console.log('CLAUDE.md/AGENTS.md so your agent checks every dependency automatically.')
+}
+
 if (written === 0) {
   console.log('\nNo agent config files were found on this machine.')
   console.log('Add this to your MCP config by hand:\n')
