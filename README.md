@@ -100,13 +100,15 @@ A good first prompt after installing: *"audit my dependencies"*.
 - Hard cap: 500 tokens per response, enforced in `clamp.js`. Long answers are cut at sentence boundaries with a pointer to `docs_link`.
 - The smoke test (`npm run smoke`) spawns the server, calls every tool against the bundled data, and fails if any response breaks the cap. The budget is a test, not a promise.
 
-Measured against Context7 on 20 real coding questions, tokens estimated as chars/4. Ours is one `how_do_i` call; theirs is the two calls an agent actually makes, `resolve-library-id` plus the docs call at its default budget.
+Measured against Context7 across 10 rounds of 20 queries on libraries sampled at random from this index, tokens estimated as chars/4. Ours is one `how_do_i` call; theirs is the two calls an agent actually makes, `resolve-library-id` plus the docs call at its default budget. Query text was authored from each library's description only, never from our stored answers.
 
 | | Median tokens per answer |
 | --- | --- |
-| should-i-use | **185** |
-| Context7 | **1157** |
-| Ratio | **6.3x** |
+| should-i-use | **238** |
+| Context7 | **1154** |
+| Ratio | **4.8x** (round range 3.9x-6.2x) |
+
+Of 200 rows, 199 were answered by both servers; Context7 had no usable entry for 1 library, this index for 0.
 
 Every number there is a measured MCP response, not a vendor claim. See the limitations below for what that ratio does and does not prove.
 
@@ -137,7 +139,7 @@ Worth knowing before you rely on it:
 - **Guides are research, not test drives.** Each guide is grounded in the library's documentation, release notes, changelog, and issue history on a fixed rubric, not a hands-on install of every release. The 50 most-downloaded entries are additionally install-verified in clean containers (latest run: 49/50 clean; the one timeout was sglang's CUDA wheel tree, which its own guide warns about).
 - **Guides are point-in-time.** Signals refresh daily and guides are reviewed on a pipeline, so a library that shipped a big release or found a new maintainer this week can be ahead of what the guide says. Check `docs_link` when the answer looks stale.
 - **`pick_library` ranks on keywords, not embeddings.** Plain phrasing works well; unusual or metaphorical phrasing can miss entirely. If nothing matches, it says so instead of returning a shrug, but you may need to reword.
-- **The benchmark is indicative, not definitive.** 20 queries, measured on one day, and Context7's free tier rate-limits partway through, so some of their rows came from an earlier run the same day. The 6.3x ratio is a real measurement of a small sample, not a general law. Rerun it yourself if the number matters to you.
+- **The benchmark is indicative, not definitive.** 10 rounds of 20 queries on randomly sampled libraries, measured across two days. The 4.8x ratio is a real measurement with a 3.9x-6.2x round range, not a general law. The method and every row are in bench/; rerun it yourself if the number matters to you.
 - **Verdicts are opinions.** Informed, sourced, and argued, but still one person's judgment call. Disagreeing with one is a valid bug report.
 
 ## Contributing
