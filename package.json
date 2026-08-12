@@ -1,7 +1,7 @@
 {
   "name": "should-i-use-mcp",
   "version": "0.3.2",
-  "description": "Token-efficient library docs MCP server. Honest library recommendations for coding agents: what to install, what to skip, and how to use it, in 25-360 tokens per answer. Audits your dependencies for unmaintained packages. A Context7 alternative that answers the question instead of dumping documentation.",
+  "description": "Token-efficient library docs MCP server. Honest library recommendations for coding agents: what to install, what to skip, and how to use it, in 25-360 tokens per answer. Audits your dependencies for unmaintained packages. A Context7 alternative that answers the question instead of dumping documentation. Powered by the public library index at mrkeyoor.com/libs.",
   "type": "module",
   "main": "server.js",
   "bin": {
