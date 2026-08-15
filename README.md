@@ -4,7 +4,7 @@
 
 Most library docs MCP servers dump thousands of tokens of documentation into your context and let the model sort it out. This one answers the actual question: which library to pick, which to skip, and how to do the thing. Typical answers run 25 to 360 tokens. Every response is hard-clamped at 500.
 
-**992 libraries indexed. Last updated: 2026-08-14.**
+**992 libraries indexed. Last updated: 2026-08-15.**
 
 The index grows daily. Data comes from a curated set of npm and PyPI libraries with honest guides written to a fixed rubric and grounded in each library's own docs: what a library is actually like to set up, when you should not use it, verified alternatives, 4-axis scorecards, and version-correct code snippets. If a library is not indexed, the tools say so plainly instead of guessing.
 
