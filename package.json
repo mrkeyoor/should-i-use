@@ -1,6 +1,6 @@
 {
   "name": "should-i-use-mcp",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Token-efficient library docs MCP server. Honest library recommendations for coding agents: what to install, what to skip, and how to use it, in 25-360 tokens per answer. Audits your dependencies for unmaintained packages. A Context7 alternative that answers the question instead of dumping documentation. Powered by the public library index at mrkeyoor.com/libs.",
   "type": "module",
   "main": "server.js",
@@ -46,7 +46,7 @@
   "author": "Keyoor (https://mrkeyoor.com/author/keyoor/)",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0"
+    "@modelcontextprotocol/sdk": "^1.30.0"
   },
   "mcpName": "io.github.mrkeyoor/should-i-use"
 }
